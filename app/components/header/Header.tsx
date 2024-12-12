@@ -3,7 +3,7 @@ import NavBar from './NavBar';
 import Icons from './Icons';
 
 const Header = () => {
-	const cartItemsCount = 0; // replase with actual store
+	const cartItemsCount = 0;
 
 	return (
 		<header className="shadow-md bg-base-100">
