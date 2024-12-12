@@ -1,4 +1,6 @@
+import Link from 'next/link';
 import Image from 'next/image';
+
 const categories = [
 	{ title: 'Cameras' },
 	{ title: 'Lenses' },
@@ -30,10 +32,10 @@ const ProductsDropdown = () => {
 					<div className="w-64 bg-base-100 p-4 border-r">
 						<div className="space-y-2">
 							{categories.map((category, index) => (
-								<a
+								<Link
 									key={index}
-									href="#"
-									className="flex items-center gap-3 p-2 hover:bg-base-200 rounded-lg text-base"
+									href={`/products/${category.title.toLowerCase()}`}
+									className="flex items-center gap-3 p-2 rounded-lg text-base hover:text-blue-500 hover:underline"
 								>
 									<Image
 										src="/camera.svg"
@@ -43,7 +45,7 @@ const ProductsDropdown = () => {
 										className="text-current"
 									/>
 									{category.title}
-								</a>
+								</Link>
 							))}
 						</div>
 					</div>
@@ -61,11 +63,15 @@ const ProductsDropdown = () => {
 								/>
 								<span className="font-medium">Featured Products</span>
 							</div>
-							<a href="#" className="text-blue-500 text-sm">View all</a>
+							<Link href="/products" className="text-blue-500 text-sm">View all</Link>
 						</div>
 						<div className="grid grid-cols-4 gap-4">
 							{featuredProducts.map((product, index) => (
-								<a key={index} href="#" className="group">
+								<Link
+									key={index}
+									href={`/products/${product.title.toLowerCase().replace(/\s+/g, '-')}`}
+									className="group"
+								>
 									<div className="aspect-square bg-base-200 rounded-lg mb-2 overflow-hidden">
 										<Image
 											src={product.image}
@@ -76,7 +82,7 @@ const ProductsDropdown = () => {
 										/>
 									</div>
 									<p className="text-sm text-center">{product.title}</p>
-								</a>
+								</Link>
 							))}
 						</div>
 					</div>

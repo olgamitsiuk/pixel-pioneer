@@ -1,3 +1,5 @@
+import Link from 'next/link';
+
 interface IconsProps {
 	cartItemsCount: number;
 }
@@ -44,10 +46,10 @@ const Icons = ({ cartItemsCount }: IconsProps) => {
 						</svg>
 					</label>
 					<ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
-						<li><a href="/">Home</a></li>
-						<li><a href="/products">Products</a></li>
-						<li><a href="/blog">Blog</a></li>
-						<li><a href="/contact">Contact</a></li>
+						<li><Link href="/">Home</Link></li>
+						<li><Link href="/products">Products</Link></li>
+						<li><Link href="/blog">Blog</Link></li>
+						<li><Link href="/contact">Contact</Link></li>
 					</ul>
 				</div>
 			</div>

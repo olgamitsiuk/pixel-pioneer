@@ -1,9 +1,10 @@
 import Image from 'next/image';
+import Link from 'next/link';
 
 const Logo = () => {
 	return (
 		<div className="flex-none">
-			<div className="flex items-center">
+			<Link href="/" className="flex items-center">
 				<Image
 					src="/camera.svg"
 					alt="Camera Logo"
@@ -12,7 +13,7 @@ const Logo = () => {
 					className="text-primary"
 				/>
 				<span className="ml-2 text-xl font-bold">Pixel Pioneers</span>
-			</div>
+			</Link>
 		</div>
 	);
 };
