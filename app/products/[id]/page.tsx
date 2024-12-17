@@ -1,13 +1,12 @@
 import { mockProducts } from "../mockProducts";
 import ProductDetails from "./ProductDetails";
 
-interface PageProps {
-	params: {
-		id: string;
-	};
-}
-
-export default function ProductPage({ params }: PageProps) {
+export default async function ProductPage({
+	params,
+}: {
+	params: { id: string };
+	searchParams: { [key: string]: string | string[] | undefined };
+}) {
 	const product = mockProducts.find(p => p.id === parseInt(params.id));
 
 	if (!product) {
