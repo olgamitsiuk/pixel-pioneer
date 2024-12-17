@@ -3,13 +3,18 @@ import { notFound } from "next/navigation";
 import { mockProducts } from "../mockProducts";
 import ProductDetails from "./ProductDetails";
 
-// 1. generateMetadata Function
+type Params = {
+	id: string;
+};
+
+type Props = {
+	params: Params;  // Remove Promise wrapper here
+};
+
 export async function generateMetadata({
 	params,
-}: {
-	params: { id: string };
-}): Promise<Metadata> {
-	const id = Number((await params).id);
+}: Props): Promise<Metadata> {
+	const id = Number(params.id);
 	const product = mockProducts.find((p) => p.id === id);
 
 	if (!product || isNaN(id)) {
@@ -23,13 +28,8 @@ export async function generateMetadata({
 	};
 }
 
-// 2. Page Component
-export default async function Page({
-	params,
-}: {
-	params: Promise<{ id: string }>;
-}) {
-	const id = Number((await params).id);
+export default async function Page({ params }: Props) {
+	const id = Number(params.id);
 	const product = mockProducts.find((p) => p.id === id);
 
 	if (!product || isNaN(id)) {
