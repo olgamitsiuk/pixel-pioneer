@@ -3,7 +3,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useBasket } from '../context/BasketContext';
-import { BasketItem } from '../context/BasketContext';
 
 export default function BasketPage() {
 	const {
