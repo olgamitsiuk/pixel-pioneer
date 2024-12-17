@@ -1,6 +1,6 @@
 'use client';
 
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useState, useEffect } from 'react';
 
 interface User {
 	id: number;
@@ -17,7 +17,6 @@ interface AuthContextType {
 	logout: () => void;
 }
 
-// Mock user data
 const mockUsers: User[] = [
 	{
 		id: 1,
@@ -31,7 +30,15 @@ const AuthContext = createContext<AuthContextType | null>(null);
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 	const [user, setUser] = useState<User | null>(null);
-	const [token, setToken] = useState<string | null>(localStorage.getItem('token'));
+	const [token, setToken] = useState<string | null>(null);
+
+	// Move localStorage access to useEffect
+	useEffect(() => {
+		const storedToken = localStorage.getItem('token');
+		if (storedToken) {
+			setToken(storedToken);
+		}
+	}, []);
 
 	const login = (email: string, password: string) => {
 		const foundUser = mockUsers.find(u => u.email === email && u.password === password);
