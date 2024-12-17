@@ -3,15 +3,10 @@ import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import ProductDetails from "./ProductDetails";
 
-// Define the Props type for Next.js dynamic routes
-type Props = {
-	params: {
-		id: string; // The dynamic route parameter
-	};
-};
-
 // Generate metadata for the page
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
+export async function generateMetadata(
+	{ params }: { params: { id: string } }
+): Promise<Metadata> {
 	const id = Number(params.id); // Convert id to a number
 	const product = mockProducts.find((p) => p.id === id);
 
@@ -26,8 +21,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 	};
 }
 
-// The main component
-export default function Page({ params }: Props) {
+// The main page component
+export default function Page({ params }: { params: { id: string } }) {
 	const id = Number(params.id); // Convert id to a number
 	const product = mockProducts.find((p) => p.id === id);
 
