@@ -1,13 +1,19 @@
 import { mockProducts } from "../mockProducts";
-import ProductDetails from "./ProductDetails";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
+import ProductDetails from "./ProductDetails";
+
+type Props = {
+	params: {
+		id: string;
+		[key: string]: string | string[];
+	};
+	searchParams: { [key: string]: string | string[] | undefined };
+}
 
 export async function generateMetadata({
 	params
-}: {
-	params: { id: string }
-}): Promise<Metadata> {
+}: Props): Promise<Metadata> {
 	const product = mockProducts.find(p => p.id === parseInt(params.id));
 
 	if (!product) {
@@ -21,12 +27,8 @@ export async function generateMetadata({
 	}
 }
 
-export default async function page({
-	params,
-}: {
-	params: { id: string }
-}) {
-	const product = mockProducts.find(p => p.id === parseInt(params.id));
+export default function Page(props: Props) {
+	const product = mockProducts.find(p => p.id === parseInt(props.params.id));
 
 	if (!product) {
 		return notFound();
