@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 
 interface ProductCardProps {
 	title: string;
@@ -6,9 +7,10 @@ interface ProductCardProps {
 	description: string;
 	price: number;
 	tag: string;
+	id: number;
 }
 
-const ProductCard: React.FC<ProductCardProps> = ({ title, imageSrc, description, price, tag }) => {
+const ProductCard: React.FC<ProductCardProps> = ({ title, imageSrc, description, price, tag, id }) => {
 	return (
 		<div className="card card-compact bg-base-100 w-72 shadow-xl">
 			<figure className="relative h-48">
@@ -20,7 +22,9 @@ const ProductCard: React.FC<ProductCardProps> = ({ title, imageSrc, description,
 				<p className="font-semibold text-gray-200">${price}</p>
 
 				<div className="card-actions justify-end">
-					<button className="btn btn-primary">View Product</button>
+					<Link href={`/products/${id}`}>
+						<button className="btn btn-primary">View Product</button>
+					</Link>
 				</div>
 			</div>
 			<div className="absolute top-1 left-1 z-10">

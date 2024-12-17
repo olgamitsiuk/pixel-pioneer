@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import Image from 'next/image';
+import { mockProducts } from '../../products/mockProducts';
 
 const categories = [
 	{ title: 'Cameras' },
@@ -10,12 +11,16 @@ const categories = [
 	{ title: 'Studio Equipment' }
 ];
 
-const featuredProducts = [
-	{ image: '/assets/img/camera.jpg', title: 'Canon EOS R6' },
-	{ image: '/assets/img/camera.jpg', title: '50mm f/1.8 Lens' },
-	{ image: '/assets/img/camera.jpg', title: 'LED Ring Light' },
-	{ image: '/assets/img/camera.jpg', title: 'Camera Backpack' }
-];
+// Get featured products from mock data
+const featuredProducts = mockProducts
+	.filter(product => product.feature)
+	.slice(0, 4)
+	.map(product => ({
+		id: product.id,
+		image: product.image,
+		title: product.product_name,
+		category: product.category
+	}));
 
 const ProductsDropdown = () => {
 	return (
@@ -31,10 +36,23 @@ const ProductsDropdown = () => {
 					{/* Left sidebar - Categories */}
 					<div className="w-64 bg-base-100 p-4 border-r">
 						<div className="space-y-2">
+							<Link
+								href="/products"
+								className="flex items-center gap-3 p-2 rounded-lg text-base hover:text-blue-500 hover:underline"
+							>
+								<Image
+									src="/camera.svg"
+									alt="All Products"
+									width={16}
+									height={16}
+									className="text-current"
+								/>
+								All Products
+							</Link>
 							{categories.map((category, index) => (
 								<Link
 									key={index}
-									href={`/products/${category.title.toLowerCase()}`}
+									href={`/products?category=${encodeURIComponent(category.title)}`}
 									className="flex items-center gap-3 p-2 rounded-lg text-base hover:text-blue-500 hover:underline"
 								>
 									<Image
@@ -63,16 +81,18 @@ const ProductsDropdown = () => {
 								/>
 								<span className="font-medium">Featured Products</span>
 							</div>
-							<Link href="/products" className="text-blue-500 text-sm">View all</Link>
+							<Link href="/products" className="text-blue-500 text-sm hover:underline">
+								View all products
+							</Link>
 						</div>
 						<div className="grid grid-cols-4 gap-4">
-							{featuredProducts.map((product, index) => (
+							{featuredProducts.map((product) => (
 								<Link
-									key={index}
-									href={`/products/${product.title.toLowerCase().replace(/\s+/g, '-')}`}
+									key={product.id}
+									href={`/products/${product.id}`}
 									className="group"
 								>
-									<div className="aspect-square bg-base-200 rounded-lg mb-2 overflow-hidden">
+									<div className="aspect-square bg-base-200 rounded-lg mb-2 overflow-hidden group-hover:opacity-90 transition-opacity">
 										<Image
 											src={product.image}
 											alt={product.title}
@@ -81,7 +101,9 @@ const ProductsDropdown = () => {
 											className="w-full h-full object-cover"
 										/>
 									</div>
-									<p className="text-sm text-center">{product.title}</p>
+									<p className="text-sm text-center group-hover:text-blue-500 transition-colors">
+										{product.title}
+									</p>
 								</Link>
 							))}
 						</div>
