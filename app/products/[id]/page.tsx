@@ -1,23 +1,32 @@
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { mockProducts } from "../mockProducts";
+import { mockProducts, Product } from "../mockProducts";
 import ProductDetails from "./ProductDetails";
 
 type Params = {
-	id: string;
+	slug: string;
 };
 
 type Props = {
-	params: Params;  // Remove Promise wrapper here
+	params: Params;
 };
+
+function generateSlug(productName: string): string {
+	return productName.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+}
+
+function findProductBySlug(slug: string): Product | undefined {
+	return mockProducts.find(product =>
+		generateSlug(product.product_name) === slug
+	);
+}
 
 export async function generateMetadata({
 	params,
 }: Props): Promise<Metadata> {
-	const id = Number(params.id);
-	const product = mockProducts.find((p) => p.id === id);
+	const product = findProductBySlug(params.slug);
 
-	if (!product || isNaN(id)) {
+	if (!product) {
 		return {
 			title: "Product Not Found",
 		};
@@ -29,10 +38,9 @@ export async function generateMetadata({
 }
 
 export default async function Page({ params }: Props) {
-	const id = Number(params.id);
-	const product = mockProducts.find((p) => p.id === id);
+	const product = findProductBySlug(params.slug);
 
-	if (!product || isNaN(id)) {
+	if (!product) {
 		return notFound();
 	}
 
