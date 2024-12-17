@@ -7,7 +7,8 @@ interface PageProps {
 }
 
 export default async function ProductListPage({ searchParams }: PageProps) {
-	const category = searchParams.category as string | undefined;
+
+	const category = await searchParams.category as string | undefined;
 	const pageTitle = category ? decodeURIComponent(category) : 'All Products';
 
 	let products = mockProducts;
