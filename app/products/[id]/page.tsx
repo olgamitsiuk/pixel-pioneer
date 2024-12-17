@@ -1,12 +1,20 @@
 import { mockProducts } from "../mockProducts";
 import ProductDetails from "./ProductDetails";
+import { Metadata } from "next";
 
-export default async function ProductPage({
-	params,
-}: {
-	params: { id: string };
-	searchParams: { [key: string]: string | string[] | undefined };
-}) {
+type Props = {
+	params: { id: string }
+}
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+	const product = mockProducts.find(p => p.id === parseInt(params.id));
+
+	return {
+		title: product ? product.product_name : 'Product Not Found',
+	}
+}
+
+export default function ProductPage({ params }: Props) {
 	const product = mockProducts.find(p => p.id === parseInt(params.id));
 
 	if (!product) {
