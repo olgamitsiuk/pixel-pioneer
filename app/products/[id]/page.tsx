@@ -1,6 +1,6 @@
 import { mockProducts } from "../mockProducts";
 import ProductDetails from "./ProductDetails";
-import { Metadata, ResolvingMetadata } from "next";
+import { Metadata } from "next";
 
 type GenerateMetadataProps = {
 	params: { id: string }
@@ -8,8 +8,7 @@ type GenerateMetadataProps = {
 }
 
 export async function generateMetadata(
-	{ params }: GenerateMetadataProps,
-	parent: ResolvingMetadata
+	{ params }: GenerateMetadataProps
 ): Promise<Metadata> {
 	const product = mockProducts.find(p => p.id === parseInt(params.id));
 
