@@ -3,29 +3,21 @@ import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import ProductDetails from "./ProductDetails";
 
+// Define the Props type for Next.js dynamic routes
 type Props = {
 	params: {
-		id: string;
+		id: string; // The dynamic route parameter
 	};
-	searchParams?: { [key: string]: string | string[] | undefined };
 };
 
-export async function generateMetadata({
-	params
-}: Props): Promise<Metadata> {
-	const id = Number(params.id);
+// Generate metadata for the page
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+	const id = Number(params.id); // Convert id to a number
+	const product = mockProducts.find((p) => p.id === id);
 
-	if (isNaN(id)) {
+	if (!product || isNaN(id)) {
 		return {
-			title: 'Product Not Found',
-		};
-	}
-
-	const product = mockProducts.find(p => p.id === id);
-
-	if (!product) {
-		return {
-			title: 'Product Not Found',
+			title: "Product Not Found",
 		};
 	}
 
@@ -34,17 +26,13 @@ export async function generateMetadata({
 	};
 }
 
-export default function Page(props: Props) {
-	const id = Number(props.params.id);
+// The main component
+export default function Page({ params }: Props) {
+	const id = Number(params.id); // Convert id to a number
+	const product = mockProducts.find((p) => p.id === id);
 
-	if (isNaN(id)) {
-		return notFound();
-	}
-
-	const product = mockProducts.find(p => p.id === id);
-
-	if (!product) {
-		return notFound();
+	if (!product || isNaN(id)) {
+		return notFound(); // Show 404 page if product is not found
 	}
 
 	return <ProductDetails product={product} />;
