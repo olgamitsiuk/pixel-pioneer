@@ -4,7 +4,6 @@ import { Metadata } from "next";
 
 interface PageProps {
 	params: { id: string };
-	searchParams: { [key: string]: string | string[] | undefined };
 }
 
 export async function generateMetadata(
@@ -19,7 +18,6 @@ export async function generateMetadata(
 
 export default function ProductPage({
 	params,
-	searchParams,
 }: PageProps) {
 	const product = mockProducts.find(p => p.id === parseInt(params.id));
 
