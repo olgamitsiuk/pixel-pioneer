@@ -37,12 +37,12 @@ export default function ProfilePage() {
 	if (!user) return null;
 
 	return (
-		<div className="container mx-auto max-w-2xl px-4 py-8">
-			<div className="bg-base-100 shadow-xl rounded-lg">
+		<div className="container mx-auto px-4 pt-20 sm:pt-8">
+			<div className="max-w-md mx-auto bg-base-100 shadow-xl rounded-lg">
 				<div className="p-6">
 					<h1 className="text-2xl font-bold mb-6">User Profile</h1>
 
-					<form onSubmit={handleUpdate} className="space-y-6">
+					<form onSubmit={handleUpdate} className="space-y-4">
 						{/* Name Input */}
 						<div className="form-control">
 							<label className="label">
@@ -70,26 +70,26 @@ export default function ProfilePage() {
 						</div>
 
 						{/* Action Buttons */}
-						<div className="flex flex-col gap-4 mt-8">
+						<div className="space-y-4 pt-4">
 							<div className="flex justify-end">
 								<button
 									type="submit"
-									className="btn btn-primary"
+									className="btn btn-primary w-full sm:w-auto"
 								>
 									Update Profile
 								</button>
 							</div>
-							<div className="flex justify-between">
+							<div className="flex flex-col sm:flex-row justify-between gap-2">
 								<button
 									type="button"
-									className="btn btn-error btn-outline"
+									className="btn btn-error btn-outline w-full sm:w-auto"
 									onClick={() => setShowDeleteConfirm(true)}
 								>
 									Delete Account
 								</button>
 								<button
 									type="button"
-									className="btn btn-ghost"
+									className="btn btn-ghost w-full sm:w-auto"
 									onClick={() => {
 										logout();
 										router.push('/');
@@ -103,10 +103,10 @@ export default function ProfilePage() {
 				</div>
 			</div>
 
-			{/* Delete confirmation modal */}
+			{/* Delete Confirmation Modal */}
 			{showDeleteConfirm && (
 				<div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50">
-					<div className="card w-96 bg-base-100 shadow-xl">
+					<div className="card w-full max-w-sm bg-base-100 shadow-xl">
 						<div className="card-body">
 							<h2 className="card-title text-xl font-bold">Confirm Delete Account</h2>
 							<p>Are you sure you want to delete your account? This action cannot be undone.</p>
