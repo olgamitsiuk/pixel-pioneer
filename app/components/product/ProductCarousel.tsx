@@ -3,7 +3,23 @@ import React, { useRef, useEffect } from "react";
 import ProductCard from "./ProductCard";
 import Link from "next/link";
 
-const ProductCarousel = ({ title, products }) => {
+interface Product {
+  id: number;
+  product_name: string;
+  image: string;
+  description: string;
+  price: number;
+}
+
+interface ProductCarouselProps {
+  title: string;
+  products: Product[];
+}
+
+const ProductCarousel: React.FC<ProductCarouselProps> = ({
+  title,
+  products,
+}) => {
   const carouselRef = useRef<HTMLDivElement | null>(null);
 
   // Scroll left by the width of one product card
@@ -30,7 +46,6 @@ const ProductCarousel = ({ title, products }) => {
       const scrollDistance =
         carouselRef.current.querySelector(".carousel-item")?.clientWidth || 0;
 
-      // Only prevent default (vertical scrolling) if we're hovering over the carousel
       if (event.deltaY !== 0) {
         event.preventDefault(); // Prevent vertical scrolling
 
@@ -67,7 +82,14 @@ const ProductCarousel = ({ title, products }) => {
       {/* Product Group Title */}
       <div className="p-4 flex justify-between">
         <h2 className="text-2xl font-bold mb-4">{title}</h2>
-        <Link href={`/products`} className="link link-hover">
+        <Link
+          href={
+            title === "Featured Products"
+              ? "/products?viewAll=featured"
+              : "/products?viewAll=new"
+          }
+          className="link link-hover"
+        >
           See all
         </Link>
       </div>
@@ -91,11 +113,11 @@ const ProductCarousel = ({ title, products }) => {
             className="carousel-item flex-shrink-0 snap-center"
           >
             <ProductCard
-              title={product.title}
-              imageSrc={product.imageSrc}
+              title={product.product_name}
+              imageSrc={product.image}
               description={product.description}
               price={product.price}
-              tag={product.tag}
+              id={product.id}
             />
           </div>
         ))}

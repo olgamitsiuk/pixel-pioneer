@@ -6,7 +6,6 @@ const Footer = () => {
     /*  Footer Link Titles */
   }
   const productLinks = [
-    { title: "All Products" },
     { title: "Cameras" },
     { title: "Lenses" },
     { title: "Lighting" },
@@ -34,10 +33,13 @@ const Footer = () => {
       <div className="footer bg-base-200 text-base-content p-10">
         <nav>
           <h6 className="footer-title">Products</h6>
+          <Link href={`/products`} className="link link-hover">
+            All Products
+          </Link>
           {productLinks.map((product, index) => (
             <Link
               key={index}
-              href={`/products/${product.title.toLowerCase()}`}
+              href={`/products?category=${encodeURIComponent(product.title)}`}
               className="link link-hover"
             >
               {product.title}
