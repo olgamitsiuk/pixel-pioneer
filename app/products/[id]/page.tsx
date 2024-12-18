@@ -1,37 +1,45 @@
+import { Metadata } from "next";
+import { notFound } from "next/navigation";
 import { mockProducts } from "../mockProducts";
 import ProductDetails from "./ProductDetails";
-import { Metadata } from "next";
 
-type GenerateMetadataProps = {
-	params: { id: string }
-	searchParams: { [key: string]: string | string[] | undefined }
-}
+type Params = {
+	id: string;
+};
 
-export async function generateMetadata(
-	{ params }: GenerateMetadataProps
-): Promise<Metadata> {
-	const product = mockProducts.find(p => p.id === parseInt(params.id));
+type Props = {
+	params: Promise<Params>;
+};
+
+export async function generateMetadata({
+	params,
+}: {
+	params: Promise<Params>;
+}): Promise<Metadata> {
+
+	const { id } = await params;
+	const numId = Number(id);
+	const product = mockProducts.find((p) => p.id === numId);
+
+	if (!product || isNaN(numId)) {
+		return {
+			title: "Product Not Found",
+		};
+	}
 
 	return {
-		title: product ? product.product_name : 'Product Not Found',
-	}
+		title: product.product_name,
+	};
 }
 
-type PageProps = {
-	params: { id: string }
-}
+export default async function Page({ params }: Props) {
 
-export default async function ProductPage({ params }: PageProps) {
-	const product = mockProducts.find(p => p.id === parseInt(params.id));
+	const { id } = await params;
+	const numId = Number(id);
+	const product = mockProducts.find((p) => p.id === numId);
 
-	if (!product) {
-		return (
-			<div className="container mx-auto px-4 py-8">
-				<div className="alert alert-error">
-					<span>Product not found</span>
-				</div>
-			</div>
-		);
+	if (!product || isNaN(numId)) {
+		return notFound();
 	}
 
 	return <ProductDetails product={product} />;
