@@ -37,23 +37,17 @@ export default async function ProductListPage({ searchParams }: PageProps) {
 
 			{filteredProducts.length > 0 ? (
 				<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-					{filteredProducts.map((product) => {
-						if (!product._id) {
-							console.error('Product without ID:', product);
-							return null;
-						}
-						return (
-							<ProductCard
-								key={product._id}
-								id={product._id}
-								title={product.name}
-								imageSrc={product.image}
-								description={product.description}
-								price={product.price}
-								tag={product.is_new ? 'New' : product.feature ? 'Featured' : ''}
-							/>
-						);
-					})}
+					{filteredProducts.map((product) => (
+						<ProductCard
+							key={product._id}
+							id={product._id}
+							title={product.name}
+							imageSrc={product.image}
+							description={product.description}
+							price={product.price}
+							tag={product.is_new ? 'New' : product.feature ? 'Featured' : ''}
+						/>
+					))}
 				</div>
 			) : (
 				<div className="alert alert-info">

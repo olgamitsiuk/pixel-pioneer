@@ -3,14 +3,14 @@ import { notFound } from "next/navigation";
 import { fetchProductById } from "../../api/product";
 import ProductDetails from "./ProductDetails";
 
-interface Props {
-	params: {
-		id: string;
-	};
+interface ProductPageProps {
+	params: Promise<{ id: string }>;
+	searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
-	const product = await fetchProductById(params.id);
+export async function generateMetadata({ params }: ProductPageProps): Promise<Metadata> {
+	const { id } = await params;
+	const product = await fetchProductById(id);
 
 	if (!product) {
 		return {
@@ -20,12 +20,19 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 	return {
 		title: product.name,
+		description: product.description,
+		openGraph: {
+			title: product.name,
+			description: product.description,
+			images: [product.image],
+		},
 	};
 }
 
-export default async function Page({ params }: Props) {
+export default async function ProductPage({ params }: ProductPageProps) {
 	try {
-		const product = await fetchProductById(params.id);
+		const { id } = await params;
+		const product = await fetchProductById(id);
 
 		if (!product) {
 			return notFound();
