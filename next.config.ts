@@ -8,6 +8,16 @@ const nextConfig: NextConfig = {
 		});
 		return config;
 	},
+	images: {
+		remotePatterns: [
+			{
+				protocol: 'https',
+				hostname: 'pixelpioneer.onrender.com',
+				port: '',
+				pathname: '/media/**',
+			},
+		],
+	},
 };
 
 export default nextConfig;

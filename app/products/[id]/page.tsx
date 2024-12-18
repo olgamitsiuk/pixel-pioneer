@@ -1,46 +1,39 @@
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { mockProducts } from "../mockProducts";
+import { fetchProductById } from "../../api/product";
 import ProductDetails from "./ProductDetails";
 
-type Params = {
-	id: string;
-};
+interface Props {
+	params: {
+		id: string;
+	};
+}
 
-type Props = {
-	params: Promise<Params>;
-};
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+	const product = await fetchProductById(params.id);
 
-export async function generateMetadata({
-	params,
-}: {
-	params: Promise<Params>;
-}): Promise<Metadata> {
-
-	const { id } = await params;
-	const numId = Number(id);
-	const product = mockProducts.find((p) => p.id === numId);
-
-	if (!product || isNaN(numId)) {
+	if (!product) {
 		return {
 			title: "Product Not Found",
 		};
 	}
 
 	return {
-		title: product.product_name,
+		title: product.name,
 	};
 }
 
 export default async function Page({ params }: Props) {
+	try {
+		const product = await fetchProductById(params.id);
 
-	const { id } = await params;
-	const numId = Number(id);
-	const product = mockProducts.find((p) => p.id === numId);
+		if (!product) {
+			return notFound();
+		}
 
-	if (!product || isNaN(numId)) {
+		return <ProductDetails product={product} />;
+	} catch (error) {
+		console.error("Error loading product:", error);
 		return notFound();
 	}
-
-	return <ProductDetails product={product} />;
 }
