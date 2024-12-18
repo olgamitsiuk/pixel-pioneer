@@ -9,7 +9,7 @@ const ProductCard = ({ title, imageSrc, description, price, tag }) => {
       <div className="card-body flex flex-col">
         <h3 className="card-title">{title}</h3>
         <p className="text-gray-200">{description}</p>
-        <p className="font-semibold text-gray-200">${price}</p>
+        <p className="font-semibold text-gray-200">£{price}</p>
 
         <div className="card-actions justify-end">
           <button className="btn btn-primary">View Product</button>
