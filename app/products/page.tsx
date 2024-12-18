@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import ProductCard from "../components/product/ProductCard";
-import { fetchProducts, Product } from '../api/product';
+import { fetchProducts } from '../api/product';
 
 interface PageProps {
 	searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
