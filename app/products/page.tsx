@@ -3,12 +3,13 @@ import { mockProducts, Product } from './mockProducts';
 import ProductCard from '../components/product-card/ProductCard';
 
 interface PageProps {
-	searchParams: { [key: string]: string | string[] | undefined }
+	searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }
 
 export default async function ProductListPage({ searchParams }: PageProps) {
 
-	const category = await searchParams.category as string | undefined;
+	const resolvedParams = await searchParams;
+	const category = resolvedParams.category as string | undefined;
 	const pageTitle = category ? decodeURIComponent(category) : 'All Products';
 
 	let products = mockProducts;

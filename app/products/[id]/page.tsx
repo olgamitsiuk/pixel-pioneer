@@ -1,32 +1,27 @@
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { mockProducts, Product } from "../mockProducts";
+import { mockProducts } from "../mockProducts";
 import ProductDetails from "./ProductDetails";
 
 type Params = {
-	slug: string;
+	id: string;
 };
 
 type Props = {
-	params: Params;
+	params: Promise<Params>;
 };
-
-function generateSlug(productName: string): string {
-	return productName.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
-}
-
-function findProductBySlug(slug: string): Product | undefined {
-	return mockProducts.find(product =>
-		generateSlug(product.product_name) === slug
-	);
-}
 
 export async function generateMetadata({
 	params,
-}: Props): Promise<Metadata> {
-	const product = findProductBySlug(params.slug);
+}: {
+	params: Promise<Params>;
+}): Promise<Metadata> {
 
-	if (!product) {
+	const { id } = await params;
+	const numId = Number(id);
+	const product = mockProducts.find((p) => p.id === numId);
+
+	if (!product || isNaN(numId)) {
 		return {
 			title: "Product Not Found",
 		};
@@ -38,9 +33,12 @@ export async function generateMetadata({
 }
 
 export default async function Page({ params }: Props) {
-	const product = findProductBySlug(params.slug);
 
-	if (!product) {
+	const { id } = await params;
+	const numId = Number(id);
+	const product = mockProducts.find((p) => p.id === numId);
+
+	if (!product || isNaN(numId)) {
 		return notFound();
 	}
 
