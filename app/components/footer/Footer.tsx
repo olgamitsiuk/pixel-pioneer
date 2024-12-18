@@ -2,14 +2,17 @@ import Link from "next/link";
 import Image from "next/image";
 
 const Footer = () => {
+	{
+		/*  Footer Link Titles */
+	}
 	const productLinks = [
-		{ title: "All Products", path: "/products" },
-		{ title: "Cameras", path: "/products?category=Cameras" },
-		{ title: "Lenses", path: "/products?category=Lenses" },
-		{ title: "Lighting", path: "/products?category=Lighting" },
-		{ title: "Tripods & Supports", path: "/products?category=Tripods & Supports" },
-		{ title: "Accessories", path: "/products?category=Accessories" },
-		{ title: "Studio Equipment", path: "/products?category=Studio Equipment" },
+		{ title: "All Products" },
+		{ title: "Cameras" },
+		{ title: "Lenses" },
+		{ title: "Lighting" },
+		{ title: "Tripods & Supports" },
+		{ title: "Accessories" },
+		{ title: "Studio Equipment" },
 	];
 
 	const companyLinks = [
@@ -27,28 +30,41 @@ const Footer = () => {
 
 	return (
 		<footer>
+			{/* Top Footer Section */}
 			<div className="footer bg-base-200 text-base-content p-10">
 				<nav>
 					<h6 className="footer-title">Products</h6>
-					{productLinks.map((link, index) => (
+					{productLinks.map((product, index) => (
 						<Link
 							key={index}
-							href={link.path}
-							className="link link-hover hover:text-blue-500 transition-colors"
+							href={`/products/${product.title.toLowerCase()}`}
+							className="link link-hover"
 						>
-							{link.title}
+							{product.title}
 						</Link>
 					))}
 				</nav>
 				<nav>
 					<h6 className="footer-title">Company</h6>
-					{companyLinks.map((link, index) => (
+					{companyLinks.map((company, index) => (
 						<Link
 							key={index}
-							href={link.path}
-							className="link link-hover hover:text-blue-500 transition-colors"
+							href={`/products/${company.title.toLowerCase()}`}
+							className="link link-hover"
 						>
-							{link.title}
+							{company.title}
+						</Link>
+					))}
+				</nav>
+				<nav>
+					<h6 className="footer-title">Legal</h6>
+					{legalLinks.map((legal, index) => (
+						<Link
+							key={index}
+							href={`/products/${legal.title.toLowerCase()}`}
+							className="link link-hover"
+						>
+							{legal.title}
 						</Link>
 					))}
 				</nav>

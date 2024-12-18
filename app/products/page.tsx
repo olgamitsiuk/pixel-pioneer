@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import ProductCard from '../components/product-card/ProductCard';
+import ProductCard from "../components/product/ProductCard";
 import { fetchProducts, Product } from '../api/product';
 
 interface PageProps {
