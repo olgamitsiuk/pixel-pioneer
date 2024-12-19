@@ -1,17 +1,23 @@
 import Carousel from "./components/carousel/Carousel";
 import ProductCarousel from "./components/product/ProductCarousel";
-import { mockProducts } from "./products/mockProducts";
+import { fetchProducts } from "./api/product";
 
-// Filtered featured and new products
-const featuredProducts = mockProducts.filter((product) => product.feature);
-const newProducts = mockProducts.filter((product) => product.is_new);
+export default async function Home() {
+	const products = await fetchProducts();
 
-export default function Home() {
-  return (
-    <div>
-      <Carousel />
-      <ProductCarousel title="Featured Products" products={featuredProducts} />
-      <ProductCarousel title="New Products" products={newProducts} />
-    </div>
-  );
+	// Filter featured and new products from the API data
+	const featuredProducts = products.filter((product) => product.feature);
+	const newProducts = products.filter((product) => product.is_new);
+
+	return (
+		<div>
+			<Carousel />
+			{featuredProducts.length > 0 && (
+				<ProductCarousel title="Featured Products" products={featuredProducts} />
+			)}
+			{newProducts.length > 0 && (
+				<ProductCarousel title="New Products" products={newProducts} />
+			)}
+		</div>
+	);
 }
