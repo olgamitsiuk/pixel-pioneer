@@ -2,17 +2,14 @@ import Link from "next/link";
 import Image from "next/image";
 
 const Footer = () => {
-	{
-		/*  Footer Link Titles */
-	}
-	const productLinks = [
-		{ title: "All Products" },
-		{ title: "Cameras" },
-		{ title: "Lenses" },
-		{ title: "Lighting" },
-		{ title: "Tripods & Supports" },
-		{ title: "Accessories" },
-		{ title: "Studio Equipment" },
+
+	const categories = [
+		{ id: 1, title: 'Cameras' },
+		{ id: 2, title: 'Lenses' },
+		{ id: 3, title: 'Lighting' },
+		{ id: 4, title: 'Tripods & Supports' },
+		{ id: 5, title: 'Accessories' },
+		{ id: 6, title: 'Studio Equipment' }
 	];
 
 	const companyLinks = [
@@ -34,40 +31,49 @@ const Footer = () => {
 			<div className="footer bg-base-200 text-base-content p-10">
 				<nav>
 					<h6 className="footer-title">Products</h6>
-					{productLinks.map((product, index) => (
+					<Link
+						href="/products"
+						className="link link-hover text-base hover:text-blue-500 transition-colors"
+					>
+						All Products
+					</Link>
+					{categories.map((category) => (
 						<Link
-							key={index}
-							href={`/products/${product.title.toLowerCase()}`}
-							className="link link-hover"
+							key={category.id}
+							href={`/products?category=${encodeURIComponent(category.title)}`}
+							className="link link-hover text-base hover:text-blue-500 transition-colors"
 						>
-							{product.title}
+							{category.title}
 						</Link>
 					))}
 				</nav>
+
 				<nav>
 					<h6 className="footer-title">Company</h6>
 					{companyLinks.map((company, index) => (
 						<Link
 							key={index}
-							href={`/products/${company.title.toLowerCase()}`}
-							className="link link-hover"
+							href={company.path}
+							className="link link-hover text-base hover:text-blue-500 transition-colors"
 						>
 							{company.title}
 						</Link>
 					))}
 				</nav>
+
 				<nav>
 					<h6 className="footer-title">Legal</h6>
 					{legalLinks.map((legal, index) => (
 						<Link
 							key={index}
-							href={`/products/${legal.title.toLowerCase()}`}
-							className="link link-hover"
+							href={legal.path}
+							className="link link-hover text-base hover:text-blue-500 transition-colors"
 						>
 							{legal.title}
 						</Link>
 					))}
 				</nav>
+
 				<form>
 					<h6 className="footer-title">Newsletter</h6>
 					<fieldset className="form-control w-80">
@@ -106,10 +112,10 @@ const Footer = () => {
 					</p>
 				</aside>
 
-				{/* Social Media Icons - No Links */}
+				{/* Social Media Icons */}
 				<nav className="md:place-self-center md:justify-self-end">
 					<div className="grid grid-flow-col gap-4">
-						<a>
+						<a className="hover:text-blue-500 transition-colors">
 							<svg
 								xmlns="http://www.w3.org/2000/svg"
 								width="24"
@@ -120,7 +126,7 @@ const Footer = () => {
 								<path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"></path>
 							</svg>
 						</a>
-						<a>
+						<a className="hover:text-blue-500 transition-colors">
 							<svg
 								xmlns="http://www.w3.org/2000/svg"
 								width="24"
@@ -131,7 +137,7 @@ const Footer = () => {
 								<path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"></path>
 							</svg>
 						</a>
-						<a>
+						<a className="hover:text-blue-500 transition-colors">
 							<svg
 								xmlns="http://www.w3.org/2000/svg"
 								width="24"
