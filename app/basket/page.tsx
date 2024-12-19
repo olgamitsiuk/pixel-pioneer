@@ -1,97 +1,124 @@
 'use client';
 
-import { createContext, useContext, useState } from 'react';
-import { Product } from '@/app/api/product';
+import Image from 'next/image';
+import Link from 'next/link';
+import { useBasket } from '../context/BasketContext';
 
-interface BasketItem extends Product {
-	quantity: number;
-}
+export default function BasketPage() {
+	const {
+		basketItems,
+		increaseQuantity,
+		decreaseQuantity,
+		removeBasketItem,
+		basketSubtotal
+	} = useBasket();
 
-interface BasketContextType {
-	basketItems: BasketItem[];
-	addBasketItem: (product: Product) => void;
-	removeBasketItem: (productId: string) => void;
-	increaseQuantity: (productId: string) => void;
-	decreaseQuantity: (productId: string) => void;
-	clearBasket: () => void;
-	basketSubtotal: number;
-}
+	const shipping = 22.50;
+	const discount = 10.67;
+	const total = basketSubtotal + shipping - discount;
 
-const BasketContext = createContext<BasketContextType | undefined>(undefined);
-
-export function BasketContextProvider({ children }: { children: React.ReactNode }) {
-	const [basketItems, setBasketItems] = useState<BasketItem[]>([]);
-
-	const addBasketItem = (product: Product) => {
-		setBasketItems(prevItems => {
-			const existingItem = prevItems.find(item => item._id === product._id);
-			if (existingItem) {
-				return prevItems.map(item =>
-					item._id === product._id
-						? { ...item, quantity: item.quantity + 1 }
-						: item
-				);
-			}
-			return [...prevItems, { ...product, quantity: 1 }];
-		});
-	};
-
-	const removeBasketItem = (productId: string) => {
-		setBasketItems(prevItems =>
-			prevItems.filter(item => item._id !== productId)
+	if (basketItems.length === 0) {
+		return (
+			<div className="container mx-auto px-4 py-8">
+				<h1 className="text-2xl font-bold mb-4">Your Basket</h1>
+				<div className="alert">
+					<span>Your basket is empty. Start shopping!</span>
+					<Link href="/products" className="btn btn-primary btn-sm">
+						View Products
+					</Link>
+				</div>
+			</div>
 		);
-	};
-
-	const increaseQuantity = (productId: string) => {
-		setBasketItems(prevItems =>
-			prevItems.map(item =>
-				item._id === productId
-					? { ...item, quantity: item.quantity + 1 }
-					: item
-			)
-		);
-	};
-
-	const decreaseQuantity = (productId: string) => {
-		setBasketItems(prevItems =>
-			prevItems.map(item =>
-				item._id === productId && item.quantity > 1
-					? { ...item, quantity: item.quantity - 1 }
-					: item
-			).filter(item => item.quantity > 0)
-		);
-	};
-
-	const clearBasket = () => {
-		setBasketItems([]);
-	};
-
-	const basketSubtotal = basketItems.reduce(
-		(total, item) => total + item.price * item.quantity,
-		0
-	);
+	}
 
 	return (
-		<BasketContext.Provider
-			value={{
-				basketItems,
-				addBasketItem,
-				removeBasketItem,
-				increaseQuantity,
-				decreaseQuantity,
-				clearBasket,
-				basketSubtotal
-			}}
-		>
-			{children}
-		</BasketContext.Provider>
-	);
-}
+		<div className="container mx-auto px-4 py-8">
+			<h1 className="text-2xl font-bold mb-8">Your Basket</h1>
 
-export function useBasket() {
-	const context = useContext(BasketContext);
-	if (context === undefined) {
-		throw new Error('useBasket must be used within a BasketContextProvider');
-	}
-	return context;
+			<div className="flex flex-col lg:flex-row gap-8">
+				{/* Product List */}
+				<div className="lg:w-2/3">
+					{basketItems.map((item) => (
+						<div key={item._id} className="card card-side bg-base-100 shadow-xl mb-4">
+							<figure className="w-32 h-32 relative">
+								<Image
+									src={item.image}
+									alt={item.name}
+									fill
+									className="object-cover"
+								/>
+							</figure>
+							<div className="card-body">
+								<h2 className="card-title">{item.name}</h2>
+								<p className="text-sm opacity-70">{item.description}</p>
+								<div className="flex items-center justify-between mt-4">
+									<div className="flex items-center gap-4">
+										<div className="join">
+											<button
+												className="btn btn-sm join-item"
+												onClick={() => decreaseQuantity(item._id)}
+											>
+												-
+											</button>
+											<span className="btn btn-sm join-item no-animation">
+												{item.quantity}
+											</span>
+											<button
+												className="btn btn-sm join-item"
+												onClick={() => increaseQuantity(item._id)}
+											>
+												+
+											</button>
+										</div>
+										<button
+											className="btn btn-ghost btn-sm text-error"
+											onClick={() => removeBasketItem(item._id)}
+										>
+											Remove
+										</button>
+									</div>
+									<div className="text-lg font-bold">
+										${(item.price * item.quantity).toFixed(2)}
+									</div>
+								</div>
+							</div>
+						</div>
+					))}
+				</div>
+
+				{/* Order Summary */}
+				<div className="lg:w-1/3">
+					<div className="card bg-base-100 shadow-xl">
+						<div className="card-body">
+							<h2 className="card-title">Payment Details</h2>
+							<div className="space-y-3">
+								<div className="flex justify-between">
+									<span>Subtotal</span>
+									<span>${basketSubtotal.toFixed(2)}</span>
+								</div>
+								<div className="flex justify-between text-success">
+									<span>Discount</span>
+									<span>-${discount.toFixed(2)}</span>
+								</div>
+								<div className="flex justify-between">
+									<span>Shipping cost</span>
+									<span>${shipping.toFixed(2)}</span>
+								</div>
+								<div className="divider my-2"></div>
+								<div className="flex justify-between font-bold text-lg">
+									<span>Grand Total</span>
+									<span>${total.toFixed(2)}</span>
+								</div>
+							</div>
+							<div className="card-actions mt-4">
+								<button className="btn btn-primary w-full">
+									Proceed to checkout
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	);
 }
