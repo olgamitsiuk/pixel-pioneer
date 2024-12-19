@@ -39,24 +39,24 @@ export default function BasketPage() {
 				{/* Product List */}
 				<div className="lg:w-2/3">
 					{basketItems.map((item) => (
-						<div key={item.id} className="card card-side bg-base-100 shadow-xl mb-4">
+						<div key={item._id} className="card card-side bg-base-100 shadow-xl mb-4">
 							<figure className="w-32 h-32 relative">
 								<Image
 									src={item.image}
-									alt={item.product_name}
+									alt={item.name}
 									fill
 									className="object-cover"
 								/>
 							</figure>
 							<div className="card-body">
-								<h2 className="card-title">{item.product_name}</h2>
+								<h2 className="card-title">{item.name}</h2>
 								<p className="text-sm opacity-70">{item.description}</p>
 								<div className="flex items-center justify-between mt-4">
 									<div className="flex items-center gap-4">
 										<div className="join">
 											<button
 												className="btn btn-sm join-item"
-												onClick={() => decreaseQuantity(item.id)}
+												onClick={() => decreaseQuantity(item._id)}
 											>
 												-
 											</button>
@@ -65,14 +65,14 @@ export default function BasketPage() {
 											</span>
 											<button
 												className="btn btn-sm join-item"
-												onClick={() => increaseQuantity(item.id)}
+												onClick={() => increaseQuantity(item._id)}
 											>
 												+
 											</button>
 										</div>
 										<button
 											className="btn btn-ghost btn-sm text-error"
-											onClick={() => removeBasketItem(item.id)}
+											onClick={() => removeBasketItem(item._id)}
 										>
 											Remove
 										</button>

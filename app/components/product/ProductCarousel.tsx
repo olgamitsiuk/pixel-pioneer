@@ -2,136 +2,120 @@
 import React, { useRef, useEffect } from "react";
 import ProductCard from "./ProductCard";
 import Link from "next/link";
-
-interface Product {
-  id: number;
-  product_name: string;
-  image: string;
-  description: string;
-  price: number;
-}
+import { Product } from "@/app/api/product";
 
 interface ProductCarouselProps {
-  title: string;
-  products: Product[];
+	title: string;
+	products: Product[];
 }
 
 const ProductCarousel: React.FC<ProductCarouselProps> = ({
-  title,
-  products,
+	title,
+	products,
 }) => {
-  const carouselRef = useRef<HTMLDivElement | null>(null);
+	const carouselRef = useRef<HTMLDivElement | null>(null);
 
-  // Scroll left by the width of one product card
-  const scrollLeft = () => {
-    if (carouselRef.current) {
-      const scrollDistance =
-        carouselRef.current.querySelector(".carousel-item")?.clientWidth || 0;
-      carouselRef.current.scrollLeft -= scrollDistance;
-    }
-  };
+	const scrollLeft = () => {
+		if (carouselRef.current) {
+			const scrollDistance =
+				carouselRef.current.querySelector(".carousel-item")?.clientWidth || 0;
+			carouselRef.current.scrollLeft -= scrollDistance;
+		}
+	};
 
-  // Scroll right by the width of one product card
-  const scrollRight = () => {
-    if (carouselRef.current) {
-      const scrollDistance =
-        carouselRef.current.querySelector(".carousel-item")?.clientWidth || 0;
-      carouselRef.current.scrollLeft += scrollDistance;
-    }
-  };
+	const scrollRight = () => {
+		if (carouselRef.current) {
+			const scrollDistance =
+				carouselRef.current.querySelector(".carousel-item")?.clientWidth || 0;
+			carouselRef.current.scrollLeft += scrollDistance;
+		}
+	};
 
-  // Handle mouse wheel scrolling (snap to cards)
-  const handleWheelScroll = (event: WheelEvent) => {
-    if (carouselRef.current) {
-      const scrollDistance =
-        carouselRef.current.querySelector(".carousel-item")?.clientWidth || 0;
+	const handleWheelScroll = (event: WheelEvent) => {
+		if (carouselRef.current) {
+			const scrollDistance =
+				carouselRef.current.querySelector(".carousel-item")?.clientWidth || 0;
 
-      if (event.deltaY !== 0) {
-        event.preventDefault(); // Prevent vertical scrolling
+			if (event.deltaY !== 0) {
+				event.preventDefault();
 
-        // Adjust scroll direction based on the wheel scroll direction
-        if (event.deltaY < 0) {
-          carouselRef.current.scrollLeft -= scrollDistance;
-        } else {
-          carouselRef.current.scrollLeft += scrollDistance;
-        }
-      }
-    }
-  };
+				if (event.deltaY < 0) {
+					carouselRef.current.scrollLeft -= scrollDistance;
+				} else {
+					carouselRef.current.scrollLeft += scrollDistance;
+				}
+			}
+		}
+	};
 
-  // Attach and remove the mouse wheel event listener
-  useEffect(() => {
-    const carouselElement = carouselRef.current;
+	useEffect(() => {
+		const carouselElement = carouselRef.current;
 
-    if (carouselElement) {
-      carouselElement.addEventListener("wheel", handleWheelScroll, {
-        passive: false,
-      });
-    }
+		if (carouselElement) {
+			carouselElement.addEventListener("wheel", handleWheelScroll, {
+				passive: false,
+			});
+		}
 
-    // Clean up the event listener
-    return () => {
-      if (carouselElement) {
-        carouselElement.removeEventListener("wheel", handleWheelScroll);
-      }
-    };
-  }, []);
+		return () => {
+			if (carouselElement) {
+				carouselElement.removeEventListener("wheel", handleWheelScroll);
+			}
+		};
+	}, []);
 
-  return (
-    <div className="relative p-4">
-      {/* Product Group Title */}
-      <div className="p-4 flex justify-between">
-        <h2 className="text-2xl font-bold mb-4">{title}</h2>
-        <Link
-          href={
-            title === "Featured Products"
-              ? "/products?viewAll=featured"
-              : "/products?viewAll=new"
-          }
-          className="link link-hover"
-        >
-          See all
-        </Link>
-      </div>
+	return (
+		<div className="relative p-4">
+			<div className="p-4 flex justify-between">
+				<h2 className="text-2xl font-bold mb-4">{title}</h2>
+				<Link
+					href={
+						title === "Featured Products"
+							? "/products?viewAll=featured"
+							: "/products?viewAll=new"
+					}
+					className="link link-hover"
+				>
+					See all
+				</Link>
+			</div>
 
-      {/* Left Scroll Button */}
-      <button
-        onClick={scrollLeft}
-        className="absolute left-1 top-1/2 transform -translate-y-1/2 z-10 bg-gray-800 text-white w-12 h-12 rounded-full flex items-center justify-center hover:bg-gray-600 transition-all opacity-90"
-      >
-        ❮
-      </button>
+			<button
+				onClick={scrollLeft}
+				className="absolute left-1 top-1/2 transform -translate-y-1/2 z-10 bg-gray-800 text-white w-12 h-12 rounded-full flex items-center justify-center hover:bg-gray-600 transition-all opacity-90"
+			>
+				❮
+			</button>
 
-      {/* Carousel Container */}
-      <div
-        ref={carouselRef}
-        className="carousel flex overflow-x-scroll scroll-smooth scrollbar-hide space-x-6 p-4 snap-x snap-mandatory"
-      >
-        {products.map((product) => (
-          <div
-            key={product.id}
-            className="carousel-item flex-shrink-0 snap-center"
-          >
-            <ProductCard
-              title={product.product_name}
-              imageSrc={product.image}
-              description={product.description}
-              price={product.price}
-              id={product.id}
-            />
-          </div>
-        ))}
-      </div>
+			<div
+				ref={carouselRef}
+				className="carousel flex overflow-x-scroll scroll-smooth scrollbar-hide space-x-6 p-4 snap-x snap-mandatory"
+			>
+				{products.map((product) => (
+					<div
+						key={product._id}
+						className="carousel-item flex-shrink-0 snap-center"
+					>
+						<ProductCard
+							title={product.name}
+							imageSrc={product.image}
+							description={product.description}
+							price={product.price}
+							id={product._id}
+							tag={product.is_new ? 'New' : product.feature ? 'Featured' : ''}
+						/>
+					</div>
+				))}
+			</div>
 
-      {/* Right Scroll Button */}
-      <button
-        onClick={scrollRight}
-        className="absolute right-1 top-1/2 transform -translate-y-1/2 z-10 bg-gray-800 text-white w-12 h-12 rounded-full flex items-center justify-center hover:bg-gray-600 transition-all opacity-90"
-      >
-        ❯
-      </button>
-    </div>
-  );
+			<button
+				onClick={scrollRight}
+				className="absolute right-1 top-1/2 transform -translate-y-1/2 z-10 bg-gray-800 text-white w-12 h-12 rounded-full flex items-center justify-center hover:bg-gray-600 transition-all opacity-90"
+			>
+				❯
+			</button>
+		</div>
+	);
 };
 
 export default ProductCarousel;

@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useBasket } from "../../context/BasketContext";
-import { Product } from "../../products/mockProducts";
+import { Product } from "../../api/product";
 
 interface ProductDetailsProps {
 	product: Product;
@@ -23,7 +23,7 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
 					<li><Link href="/">Home</Link></li>
 					<li><Link href="/products">Products</Link></li>
 					<li><Link href={`/products?category=${product.category}`}>{product.category}</Link></li>
-					<li>{product.product_name}</li>
+					<li>{product.name}</li>
 				</ul>
 			</div>
 
@@ -32,7 +32,7 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
 					<div className="relative aspect-square w-full rounded-xl overflow-hidden">
 						<Image
 							src={product.image}
-							alt={product.product_name}
+							alt={product.name}
 							fill
 							className="object-cover"
 							priority
@@ -43,7 +43,7 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
 				<div className="lg:w-1/2">
 					<div className="flex flex-col gap-4">
 						<div>
-							<h1 className="text-3xl font-bold mb-2">{product.product_name}</h1>
+							<h1 className="text-3xl font-bold mb-2">{product.name}</h1>
 							<div className="flex items-center gap-2">
 								<div className="rating">
 									<input type="radio" name="rating-2" className="mask mask-star-2 bg-orange-400" checked readOnly />
