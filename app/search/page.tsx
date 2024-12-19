@@ -25,7 +25,7 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
 					</ul>
 				</div>
 				<h1 className="text-3xl font-bold mt-4">
-					Search Results for "{query}"
+					Search Results for &quot;{query}&quot;
 				</h1>
 				<p className="text-gray-600 mt-2">
 					Found {searchResults.length} results
