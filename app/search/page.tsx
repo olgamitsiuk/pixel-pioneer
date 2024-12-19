@@ -3,11 +3,14 @@ import ProductCard from "@/app/components/product/ProductCard";
 import { fetchProducts } from '@/app/api/product';
 
 interface SearchPageProps {
-	searchParams: { q: string };
+	searchParams: Promise<{ q?: string }>;
 }
 
 export default async function SearchPage({ searchParams }: SearchPageProps) {
-	const query = searchParams.q || '';
+
+	const resolvedParams = await searchParams;
+	const query = resolvedParams.q || '';
+
 	const products = await fetchProducts();
 
 	const searchResults = products.filter(product =>
