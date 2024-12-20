@@ -12,8 +12,14 @@ const nextConfig: NextConfig = {
 		remotePatterns: [
 			{
 				protocol: 'https',
-				hostname: 'pixelpioneer.onrender.com',
+				hostname: 'pixel-pioneer-photo.vercel.app',
 				port: '',
+				pathname: '/media/**',
+			},
+			{
+				protocol: 'http',
+				hostname: 'localhost',
+				port: '3000',
 				pathname: '/media/**',
 			},
 		],
