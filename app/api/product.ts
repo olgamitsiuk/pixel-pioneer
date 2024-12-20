@@ -1,4 +1,3 @@
-// app/api/product.ts
 export interface APIProduct {
 	id: number | string;
 	product_name: string;
@@ -24,12 +23,17 @@ export interface Product {
 }
 
 function transformAPIProduct(apiProduct: APIProduct): Product {
+
+	const stripUrl = (url: string) => {
+		return url.replace('https://pixelpioneer.onrender.com/', '/');
+	}
+
 	return {
 		_id: apiProduct.id.toString(),
 		name: apiProduct.product_name,
 		category: apiProduct.category || 'Uncategorized',
 		price: Number(apiProduct.price),
-		image: apiProduct.image,
+		image: stripUrl(apiProduct.image),
 		description: apiProduct.description,
 		is_new: Boolean(apiProduct.is_new),
 		feature: Boolean(apiProduct.feature),
