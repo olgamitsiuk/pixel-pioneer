@@ -37,7 +37,7 @@ const PromoSection = () => {
 							</div>
 
 							<Link
-								href="/products/canon-rf-lenses"
+								href="/products"
 								className="inline-block mt-4 sm:mt-6"
 							>
 								<button className="btn btn-primary w-full sm:w-auto">

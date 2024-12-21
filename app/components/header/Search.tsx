@@ -49,8 +49,16 @@ const Search = ({ products = [] }: SearchProps) => {
 		e.preventDefault();
 		if (searchTerm.trim()) {
 			router.push(`/search?q=${encodeURIComponent(searchTerm)}`);
+			setSearchTerm('');
+			setFilteredProducts([]);
 			setShowDropdown(false);
 		}
+	};
+
+	const handleProductClick = () => {
+		setSearchTerm('');
+		setFilteredProducts([]);
+		setShowDropdown(false);
 	};
 
 	return (
@@ -90,7 +98,7 @@ const Search = ({ products = [] }: SearchProps) => {
 							key={product._id}
 							href={`/products/${product._id}`}
 							className="flex items-center p-3 hover:bg-base-200 transition-colors"
-							onClick={() => setShowDropdown(false)}
+							onClick={handleProductClick}
 						>
 							<div className="w-12 h-12 relative flex-shrink-0">
 								<Image
