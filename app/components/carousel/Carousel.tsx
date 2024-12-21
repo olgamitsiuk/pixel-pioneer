@@ -1,5 +1,6 @@
 import React from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 
 const Carousel = () => {
 	return (
@@ -25,9 +26,11 @@ const Carousel = () => {
 							<p className="text-sm xs:text-lg sm:text-xl md:text-2xl text-white mb-2 xs:mb-3 sm:mb-4">
 								for timeless memories.
 							</p>
-							<button className="btn btn-xs xs:btn-sm sm:btn-md btn-primary bg-orange-500 border-none hover:bg-orange-600 min-h-0 h-8 xs:h-10">
-								Explore More
-							</button>
+							<Link href="/products">
+								<button className="btn btn-xs xs:btn-sm sm:btn-md btn-primary bg-orange-500 border-none hover:bg-orange-600 min-h-0 h-8 xs:h-10">
+									Explore More
+								</button>
+							</Link>
 						</div>
 					</div>
 				</div>
@@ -69,9 +72,11 @@ const Carousel = () => {
 							<p className="text-sm xs:text-lg sm:text-xl md:text-2xl text-white mb-2 xs:mb-3 sm:mb-4">
 								for timeless memories.
 							</p>
-							<button className="btn btn-xs xs:btn-sm sm:btn-md btn-primary bg-orange-500 border-none hover:bg-orange-600 min-h-0 h-8 xs:h-10">
-								Explore More
-							</button>
+							<Link href="/products">
+								<button className="btn btn-xs xs:btn-sm sm:btn-md btn-primary bg-orange-500 border-none hover:bg-orange-600 min-h-0 h-8 xs:h-10">
+									Explore More
+								</button>
+							</Link>
 						</div>
 					</div>
 				</div>
