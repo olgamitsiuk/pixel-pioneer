@@ -1,8 +1,6 @@
 "use client";
 import Image from 'next/image';
-import Link from 'next/link';
 
-// Import brand logos
 import canonLogo from '../../public/media/brands/canon.png';
 import sonyLogo from '../../public/media/brands/sony.png';
 import nikonLogo from '../../public/media/brands/nikon.png';
@@ -12,13 +10,13 @@ import leicaLogo from '../../public/media/brands/leica.png';
 import olympusLogo from '../../public/media/brands/olympus.png';
 
 const brands = [
-	{ name: 'Canon', logo: canonLogo, href: '/brands/canon' },
-	{ name: 'Sony', logo: sonyLogo, href: '/brands/sony' },
-	{ name: 'Nikon', logo: nikonLogo, href: '/brands/nikon' },
-	{ name: 'DJI', logo: djiLogo, href: '/brands/dji' },
-	{ name: 'Fujifilm', logo: fujifilmLogo, href: '/brands/fujifilm' },
-	{ name: 'Leica', logo: leicaLogo, href: '/brands/leica' },
-	{ name: 'Olympus', logo: olympusLogo, href: '/brands/olympus' }
+	{ name: 'Canon', logo: canonLogo },
+	{ name: 'Sony', logo: sonyLogo },
+	{ name: 'Nikon', logo: nikonLogo },
+	{ name: 'DJI', logo: djiLogo },
+	{ name: 'Fujifilm', logo: fujifilmLogo },
+	{ name: 'Leica', logo: leicaLogo },
+	{ name: 'Olympus', logo: olympusLogo }
 ];
 
 const BrandCarousel = () => {
@@ -32,9 +30,8 @@ const BrandCarousel = () => {
 				<div className="relative">
 					<div className="carousel carousel-center w-full overflow-x-auto space-x-4 sm:space-x-8 scrollbar-hide">
 						{brands.map((brand) => (
-							<Link
+							<div
 								key={brand.name}
-								href={brand.href}
 								className="carousel-item flex-none"
 							>
 								<div className="relative h-12 sm:h-16 w-28 sm:w-40 transition-transform hover:scale-105">
@@ -47,7 +44,7 @@ const BrandCarousel = () => {
 										sizes="(max-width: 640px) 112px, 160px"
 									/>
 								</div>
-							</Link>
+							</div>
 						))}
 					</div>
 
