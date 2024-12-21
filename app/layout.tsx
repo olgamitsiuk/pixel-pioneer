@@ -34,9 +34,15 @@ export default function RootLayout({
 				<AuthProvider>
 					<BasketContextProvider>
 						<div className="flex flex-col min-h-screen">
-							<Header />
-							<main className="flex-grow mb-4">{children}</main>
-							<Footer />
+							<div className="w-full">
+								<Header />
+							</div>
+							<main className="flex-grow mb-4 w-full px-4 sm:px-6 lg:px-8 2xl:max-w-[1600px] 2xl:mx-auto">
+								{children}
+							</main>
+							<div className="w-full">
+								<Footer />
+							</div>
 						</div>
 					</BasketContextProvider>
 				</AuthProvider>
