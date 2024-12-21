@@ -11,6 +11,13 @@ const categories = [
 ];
 
 const MobileMenu = () => {
+	const handleLinkClick = () => {
+		const drawer = document.getElementById('mobile-menu-drawer') as HTMLInputElement;
+		if (drawer) {
+			drawer.checked = false;
+		}
+	};
+
 	return (
 		<div className="drawer drawer-end">
 			<input id="mobile-menu-drawer" type="checkbox" className="drawer-toggle" />
@@ -34,6 +41,7 @@ const MobileMenu = () => {
 							<li>
 								<Link
 									href="/"
+									onClick={handleLinkClick}
 									className="text-base hover:text-blue-500 transition-colors"
 								>
 									Home
@@ -46,6 +54,7 @@ const MobileMenu = () => {
 							<li>
 								<Link
 									href="/products"
+									onClick={handleLinkClick}
 									className="flex items-center gap-3 text-base hover:text-blue-500 transition-colors"
 								>
 									<Image
@@ -62,6 +71,7 @@ const MobileMenu = () => {
 								<li key={category.id}>
 									<Link
 										href={`/products?category=${encodeURIComponent(category.title)}`}
+										onClick={handleLinkClick}
 										className="flex items-center gap-3 text-base hover:text-blue-500 transition-colors"
 									>
 										<Image
@@ -79,6 +89,7 @@ const MobileMenu = () => {
 							<li className="mt-4">
 								<Link
 									href="/blog"
+									onClick={handleLinkClick}
 									className="text-base hover:text-blue-500 transition-colors"
 								>
 									Blog
@@ -87,6 +98,7 @@ const MobileMenu = () => {
 							<li>
 								<Link
 									href="/contact"
+									onClick={handleLinkClick}
 									className="text-base hover:text-blue-500 transition-colors"
 								>
 									Contact

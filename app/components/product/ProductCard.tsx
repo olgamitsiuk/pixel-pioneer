@@ -24,8 +24,8 @@ const ProductCard: React.FC<ProductCardProps> = ({ id, title, imageSrc, descript
 			</figure>
 			<div className="card-body flex flex-col">
 				<h3 className="card-title">{title}</h3>
-				<p className="text-gray-200">{description}</p>
-				<p className="font-semibold text-gray-200">${Number(price).toFixed(2)}</p>
+				<p>{description}</p>
+				<p className="text-xl font-semibold">${Number(price).toFixed(2)}</p>
 
 				<div className="card-actions justify-end">
 					<Link href={`/products/${id}`}>
